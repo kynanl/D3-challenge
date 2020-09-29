@@ -68,21 +68,24 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     var label;
 
     if (chosenXAxis === "poverty") {
-        label = "Poverty:";
+        label = "poverty:";
     }
-    else if (chosenXAxis == "age") {
-        label = "Age:";
+    else if (chosenXAxis === "age") {
+        label = "age:";
     }
     else {
-        label = "Income"
+        label = "income:"
     }
+
+
 
     var toolTip = d3.tip()
         .attr("class", "tooltip")
-        .offset([80, -60])
+        // .offset([80, -60])
         .html(function (d) {
-            return (`${label}`);
+            return (`${d.abbr}`);
         });
+
 
     circlesGroup.call(toolTip);
 
@@ -105,8 +108,10 @@ d3.csv("data.csv").then(function (healthData, err) {
         data.poverty = +data.poverty;
         data.age = +data.age;
         data.income = +data.income;
-        console.log(healthData)
+        data.obesity = +data.obesity;
+        data.state = data.state
     })
+    console.log(healthData)
 
     // xLinearScale function above csv import
     var xLinearScale = xScale(healthData, chosenXAxis);
@@ -135,7 +140,7 @@ d3.csv("data.csv").then(function (healthData, err) {
         .append("circle")
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d.obesity))
-        .attr("r", 20)
+        .attr("r", 15)
         .attr("fill", "pink")
         .attr("opacity", ".5");
 
@@ -160,7 +165,7 @@ d3.csv("data.csv").then(function (healthData, err) {
     var incomeLabel = labelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 60)
-        .attr("value", "age") // value to grab for event listener
+        .attr("value", "income") // value to grab for event listener
         .classed("inactive", true)
         .text("Average Income");
 
@@ -186,7 +191,7 @@ d3.csv("data.csv").then(function (healthData, err) {
                 // replaces chosenXAxis with value
                 chosenXAxis = value;
 
-                // console.log(chosenXAxis)
+                console.log(chosenXAxis)
 
                 // functions here found above csv import
                 // updates x scale for new data
@@ -225,19 +230,19 @@ d3.csv("data.csv").then(function (healthData, err) {
                         .classed("active", false)
                         .classed("inactive", true);
                 }
-                else {
+                else if (chosenXAxis == "income") {
                     povertyLabel
                         .classed("active", false)
                         .classed("inactive", true);
                     ageLabel
-                        .classed("active", fasle)
+                        .classed("active", false)
                         .classed("inactive", true);
                     incomeLabel
                         .classed("active", true)
-                        .classed("inactive", fasle);
+                        .classed("inactive", false);
                 }
             }
         });
-}).catch (function(error) {
+}).catch(function (error) {
     console.log(error);
 });
