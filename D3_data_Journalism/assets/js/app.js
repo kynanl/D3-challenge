@@ -99,31 +99,44 @@ function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
 }
 
 // function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, circlesGroup) {
+function updateToolTip(chosenXAxis, circlesGroup, chosenYAxis) {
 
-    // var label;
+    var xlabel;
 
-    // if (chosenXAxis === "poverty") {
-    //     label = "poverty:";
-    // }
-    // else if (chosenXAxis === "age") {
-    //     label = "age:";
-    // }
-    // else {
-    //     label = "income:"
-    // }
+    if (chosenXAxis === "poverty") {
+        xlabel =  "poverty:";
+    }
+    else if (chosenXAxis === "age") {
+        xlabel = "age:";
+    }
+    else {
+        xlabel = "income:"
+    }
+
+    var ylabel;
+    if (chosenYAxis === "obesity") {
+        ylabel = "obesity:";
+    }
+    else if (chosenYAxis === "smokes") {
+        ylabel = "smokes:";
+    }
+    else {
+        ylabel = "no health insurance:"
+    }
+
 
 
 
     var toolTip = d3.tip()
         .attr("class", "tooltip")
-        // .offset([80, -60])
+        .offset([80, -60])
         .html(function (d) {
-            return (`${d.abbr}`);
+            return (`${d.state}<br></br>${xlabel}<br></br> ${ylabel}`);
         });
 
 
     circlesGroup.call(toolTip);
+    
 
     circlesGroup.on("mouseover", function (data) {
         toolTip.show(data);
@@ -182,7 +195,7 @@ d3.csv("data.csv").then(function (healthData, err) {
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenYAxis]))
         .attr("r", 15)
-        .attr("fill", "pink")
+        .attr("fill", "blue")
         .attr("opacity", ".6");
     var textGroup = chartGroup.selectAll("text.abbr")
         .data(healthData)
