@@ -104,24 +104,25 @@ function updateToolTip(chosenXAxis, circlesGroup, chosenYAxis) {
     var xlabel;
 
     if (chosenXAxis === "poverty") {
-        xlabel = "poverty:";
+        xlabel = "% in poverty:";
     }
     else if (chosenXAxis === "age") {
-        xlabel = "age:";
+        xlabel = "avg age:";
     }
     else {
-        xlabel = "income:"
+        xlabel = "avg income:"
     };
 
     var ylabel;
+
     if (chosenYAxis === "obesity") {
-        ylabel = "obesity:";
+        ylabel = "obese:";
     }
     else if (chosenYAxis === "smokes") {
-        ylabel = "smokes:";
+        ylabel = "smoking:";
     }
-    else {
-        ylabel = "no health insurance:"
+    else if (chosenYAxis === "healthcare") {
+        ylabel = "without insurance:"
     };
 
 
@@ -129,7 +130,7 @@ function updateToolTip(chosenXAxis, circlesGroup, chosenYAxis) {
 
     var toolTip = d3.tip()
         .attr("text", "abbr")
-        // .offset([80, -60])
+        .offset([80, -60])
         .html(function (d) {
             return (`${d.state}<br></br>${xlabel} ${d[chosenXAxis]}<br></br> ${ylabel} ${d[chosenYAxis]}%`);
         });
@@ -165,10 +166,9 @@ d3.csv("data.csv").then(function (healthData, err) {
         data.poverty = +data.poverty;
         data.age = +data.age;
         data.income = +data.income;
+        data.healthcare = +data.healthcare
         data.obesity = +data.obesity;
         data.smokes = +data.smokes;
-        data.healthcare = +data.healthcare
-
     })
     console.log(healthData)
 
@@ -295,7 +295,7 @@ d3.csv("data.csv").then(function (healthData, err) {
                 textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis,);
 
                 // updates tooltips with new info
-                circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+                circlesGroup = updateToolTip(chosenXAxis, circlesGroup, chosenYAxis);
 
                 // changes classes to change bold text
                 if (chosenXAxis === "poverty") {
@@ -335,7 +335,7 @@ d3.csv("data.csv").then(function (healthData, err) {
             }
         }
         );
-    // var circlesGroup = updateToolTip(circlesGroup, chosenYAxis);
+  
     ylabelsGroup.selectAll("text")
         .on("click", function () {
             // get value of selection
@@ -358,7 +358,7 @@ d3.csv("data.csv").then(function (healthData, err) {
                 circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
                 textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
                 // updates tooltips with new info
-                circlesGroup = updateToolTip(chosenYAxis, circlesGroup);
+                circlesGroup = updateToolTip(chosenXAxis, circlesGroup, chosenYAxis);
 
                 // changes classes to change bold text
                 if (chosenYAxis === "obesity") {
