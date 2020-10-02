@@ -110,7 +110,7 @@ function updateToolTip(chosenXAxis, circlesGroup, chosenYAxis) {
         xlabel = "avg age:";
     }
     else {
-        xlabel = "avg income:"
+        xlabel = "avg income :"
     };
 
     var ylabel;
@@ -207,8 +207,6 @@ d3.csv("data.csv").then(function (healthData, err) {
         .enter()
         .append("text")
         .classed("abbr", true)
-        .attr("x", d => xLinearScale(d[chosenXAxis]) - 10)
-        .attr("y", d => yLinearScale(d[chosenYAxis]) + 6)
         .text(d => d.abbr)
 
 
@@ -222,7 +220,7 @@ d3.csv("data.csv").then(function (healthData, err) {
         .attr("y", 20)
         .attr("value", "poverty") // value to grab for event listener
         .classed("active", true)
-        .text("% of Population in Poverty");
+        .text("Poverty Prevalence(%)");
 
     var ageLabel = xlabelsGroup.append("text")
         .attr("x", 0)
@@ -248,7 +246,7 @@ d3.csv("data.csv").then(function (healthData, err) {
         .attr("dy", "1em")
         .classed("active", true)
         .attr("value", "obesity")
-        .text("Obesity Prevalence (%)");
+        .text("Obesity Prevalence(%)");
 
     var smokesLabel = ylabelsGroup.append("text")
         .attr("y", 0 - margin.left + 20)
@@ -256,7 +254,7 @@ d3.csv("data.csv").then(function (healthData, err) {
         .attr("dy", "1em")
         .classed("inactive", true)
         .attr("value", "smokes")
-        .text("% of Adults Smoking");
+        .text("Adults Smoking(%)");
 
     var healthLabel = ylabelsGroup.append("text")
         .attr("y", 0 - margin.left + 40)
@@ -264,7 +262,7 @@ d3.csv("data.csv").then(function (healthData, err) {
         .attr("dy", "1em")
         .classed("inactive", true)
         .attr("value", "healthcare")
-        .text("% of Adults w/o Health Insurance");
+        .text("Lacks Health Insurance(%)");
 
 
 
